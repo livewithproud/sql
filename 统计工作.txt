@@ -1,0 +1,45 @@
+﻿目前已经导入到数据表中的数据有约170多万条，附件Excel文件是数据库中的一个样例解释，你可以根据这个来看具体每个字段的含义。
+
+这两天的任务主要集中在数据统计分析阶段，主要在当前170万条记录的基础上，完成以下内容的
+√基础统计工作：交易日期统计，节目类型统计，交易来源统计，支付手段统计，支付设备统计，用户地域统计
+
+会员统计工作：
+•	沉睡会员统计：已是会员，近6个月无观看行为（享受会员服务）会员用户。
+•	沉睡用户统计：曾经是会员，但目前过期状态，近6个月无购买会员。
+•	活跃会员统计：每周有1以上次观看优酷内容。
+
+
+
+
+1724611
+
+
+115.29.241.195
+LINUX:  hadoop  web30coreXzy70hZxj80h  PORT:22
+
+MYSQL: root   welcome1
+port : 2002
+
+DB: renet  
+table: analyzeuser
+
+
+
+
+time
+id
+userId
+userName
+mobile
+itemName
+itemKind
+platform
+dealSourceKind
+equipment
+payChannel
+channelAccount
+email
+emailState
+payMobile
+payRegional
+payCity

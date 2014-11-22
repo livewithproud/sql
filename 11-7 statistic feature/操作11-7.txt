@@ -1,0 +1,49 @@
+create view datanum as
+select distinct userId from analyzeuser where month(time) = '7' limit 20;
+
+select distinct userId, month(time) from analyzeuser 
+where not userId in (select userId from analyzeuser where month(time) = '7');
+
+select * from analyzeuser where userId in ('107','982');
+
+
+create view idmon as
+select distinct userId, month(time) as num from analyzeuser;
+
+select userId from idmon where userId not in (select userId from idmon where num = '7' );
+
+
+
+drop view datanum;
+
+desc analyzeuser;
+
+
+
+
+
+
+select * from analyzeuser where itemKind like '%一球成名%';
+select distinct itemKind from analyzeuser;
+
+select * from dataall;
+
+create view user as
+select distinct userId, userName, week(time) as week from analyzeuser; 
+
+create view dataall as
+select userId, userName,count(*) as totalweek  from user group by userId;
+
+select * from dataall where totalweek = 18;
+
+
+
+select * from weekbyuserId limit 20;
+select * from userIdbyweek limit 20;
+
+select * from analyzeuser where userId = '107';
+
+select week(time) from analyzeuser  group by week(time);
+select time, week(time) from analyzeuser group by day(time);
+
+

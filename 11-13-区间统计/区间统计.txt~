@@ -1,0 +1,49 @@
+数据结果：
+
+,	p,	count(*)
+1,	7,	2
+2,	14,	628
+3,	28,	15684
+4,	30,	13236
+
+
+由于时间有限我只是跑了四种周期的情况
+
+比如，１所在行的意思是：每隔七天（也就是每周）均看过的用户数，为１；
+
+可以看出，每30天都看的用户少于每28天都看的用户数，相差700左右，但是基于用户总数为1022979，所以我觉得用28天与30天差别不大，你可以给点建议．
+
+如果你觉得有必要的话，我明天可以把任何周期的用户数计算出来．
+
+下边是代码（Ｒ语言）：
+
+library(DBI)
+library(RMySQL)
+conn <- dbConnect(MySQL(), dbname = "renet", username = "root", password="welcome1", host = "127.0.0.1",port=2002)
+tmax <- 735810
+tmin <- 735689
+# tmax <- as.numeric(dbGetQuery(conn, "select to_days(max(time)) from analyzeuser;"))
+# tmin <- as.numeric(dbGetQuery(conn, "select to_days(min(time)) from analyzeuser;"))
+
+score <- data.frame()
+
+dbGetQuery(conn, "drop view if exists period;")
+dbGetQuery(conn, "drop view if exists period_n;")
+
+for(p in c(7,14,28,30))
+{
+	temp <- NULL
+
+	dbGetQuery(conn, paste("create view period as
+					 select distinct (to_days(time) -",tmin,") div ",p," as period, userId from analyzeuser;")) #  -((",tmax,"-",tmin,") mod ",p,")
+	dbGetQuery(conn, "create view period_n as select userId, count(*) as n from period group by userId;")	
+	temp <- dbGetQuery(conn, paste("select count(*) from period_n where n = (",tmax," - ",tmin,") div ",p,";"))
+	score <- rbind(score, cbind(p,temp))
+	cat("score",as.character(score),"\n")
+	dbGetQuery(conn, "drop view period;")
+	dbGetQuery(conn, "drop view period_n;")
+}
+write.table(score,"/home/scuiting/Workspace/sql/score.txt", quote=FALSE, sep=",")
+dbDisconnect(conn)
+
+
