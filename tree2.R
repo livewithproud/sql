@@ -13,7 +13,8 @@ dataall <- dbGetQuery(conn, "select userId, itemKind, payChannel, payRegional
 						     from analyzeuser 
 						     where length(itemKind)>0 and itemKind is not null
 						     and length(payChannel)>0 and payChannel is not null
-						     and length(payRegional)>0 and payRegional is not null;")
+						     and length(payRegional)>0 and payRegional is not null;")  # dim--- 1057482 4
+
 dbDisconnect(conn)
 
 #the vector of itemKind
@@ -108,3 +109,6 @@ rpart.plot(fit,main="决策树",
 #tree <- rpart(userId~., userdata, method = "class")
 #plot(fit, uniform = TRUE, branch = 0, margin = 0.1, main= "classification tree")
 #text(fit, use.n = TRUE, fancy = TRUE, col = "blue")
+setwd("/home/scuiting/Workspace/sql")
+dev.copy(jpeg, filename = "tree.jpeg")
+dev.off()
