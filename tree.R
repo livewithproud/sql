@@ -79,6 +79,7 @@ while(t < n + 1)
 
 
 userdata <- cbind(dataall[c(1,3,4)],item)
+# userdata <- read.table("/home/scuiting/Workspace/sql/userdata.txt",head = TRUE, sep = "," ,as.is=T)
 
 Cnew <- Cold <- userdata[,2]
 Coldname <- c("新支付宝","动漫基地","一键支付","无线支付宝","支付宝直连银行","微信支付","微信APP支付","支付宝","财付通","中国银联","联动优势","易充支付","PC机","手机","浏览器")
@@ -109,10 +110,19 @@ ct <- rpart.control(xval = 10, minsplit = 20, cp= 0.1)
 
 fit <- rpart(userId~., data = userdata, method = "class", parms = list(prior = c(0.5, 0.5), split = "information")) #control = ct, 
 
-rpart.plot(fit, branch=1, branch.type=2, type=1, extra=102,
-           shadow.col="gray", box.col="green",
-           border.col="blue", split.col="red",
-           split.cex=1.2, main="决策树")
+# rpart.plot(fit, branch=1, branch.type=2, type=1, extra=102,
+#            shadow.col="gray", box.col="green",
+#            border.col="blue", split.col="red",
+#             main="决策树") # split.cex=1.2
+
+
+rpart.plot(fit,main="决策树", 
+           ycompress=TRUE,extra=1,cex=0.7,varlen=0,branch=1,digits=4, 
+           round=0.5,shadow.col="gray",xsep=" / ",box.col="green",split.cex=1.1, 
+           split.suffix=" ?", 
+           split.box.col="lightgray", 
+           split.border.col="darkgray", split.round=.5,yesno.yshift=0.6, 
+           boxes.include.gap=TRUE,eq=" ",lt=" < ", ge=" >= ")  #
 
 #rpart.plot(fit, main="决策树")
 
